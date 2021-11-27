@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Inputfile: $1"
+ffmpeg -y -i "$1" -vf "scale=666:-1" TEMP_VIDEO.mp4
+ffmpeg -y -i TEMP_VIDEO.mp4 -framerate 30000/1001 -loop 1 -i logo.png -filter_complex "[1:v] fade=out:st=3:d=1:alpha=1 [ov]; [0:v][ov] overlay=10:10 [v]" -map "[v]" -map 0:a -c:v libx264 -c:a copy -shortest "./OUTPUT/$1"
+echo "Outputfile: $1"

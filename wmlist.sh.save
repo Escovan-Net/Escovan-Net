@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -x
+
+ls -1 $PWD/MP4/wm*.mp4 >>wmlist.txt
+while read line; do
+    md5sum $line | cut -c -32 > NAME
+    echo "peertube up -n $(cat NAME) -f '$line'"
+done < wmlist.txt >>wmlist.up.sh
+
+# chmod +x wmlist.up.sh
+# ./wmlist.up.sh
